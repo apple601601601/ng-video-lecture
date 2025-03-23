@@ -307,9 +307,9 @@ if args.no_train is not True:
     if args.save is None:
         dt=str(datetime.datetime.now()).replace(":","_")
         if args.replace_ln_with_tanh:
-            args.save = f"model_{batch_size}_{n_embd}_{block_size}_{n_head}_{n_layer}_{args.randseed}_{losses['val']}_{dt}.bin"
+            args.save = f"model_tanh_{batch_size}_{n_embd}_{block_size}_{n_head}_{n_layer}_{args.randseed}_{losses['val']}_{dt}.bin"
         else:
-            args.save = f"model_{batch_size}_{n_embd}_{block_size}_{n_head}_{n_layer}_{args.randseed}_{losses['val']}_{dt}.bin"
+            args.save = f"model_ln_{batch_size}_{n_embd}_{block_size}_{n_head}_{n_layer}_{args.randseed}_{losses['val']}_{dt}.bin"
     if args.save is not None:
         print(f"Saving model to weight/{args.save}")
         torch.save(m.state_dict(), f"weight/{args.save}")
