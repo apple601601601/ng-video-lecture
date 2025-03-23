@@ -4,6 +4,7 @@ from torch.nn import functional as F
 import argparse
 import time
 import datetime
+import math
 
 # add argument parser
 parser=argparse.ArgumentParser()
@@ -22,7 +23,8 @@ parser.add_argument('--n_layer', type=int, default=6,  help='Number of layers, d
 parser.add_argument('--dropout', type=float, default=0.2, help='Dropout rate, default is 0.2')
 parser.add_argument('--block_size', type=int, default=128, help='Block size, default is 128')  
 parser.add_argument('--batch_size', type=int, default=64, help='Batch size, default is 64')
-parser.add_argument('--device', type=str, default=None, help='Device to use, default is cuda if available')
+parser.add_argument('--device', type=str, default='cuda' if torch.cuda.is_available() else 'cpu', 
+                    help='Device to use, default is cuda if available')
 parser.add_argument('--randseed', type=int, default=1337, help='random seed to use, default to 1337')
 args=parser.parse_args()
 
@@ -36,11 +38,12 @@ n_layer = args.n_layer
 dropout = args.dropout
 block_size = args.block_size
 batch_size = args.batch_size
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-if args.device is not None:
-    device = args.device
+device = args.device
 if args.randseed is not None:
     torch.manual_seed(args.randseed)
+
+#initialize list to store layer norm time
+ln_time=[]
 
 # # hyperparameters
 # batch_size = 64 # how many independent sequences will we process in parallel?
@@ -188,8 +191,19 @@ class Block(nn.Module):
             self.ln2 = nn.LayerNorm(n_embd)
 
     def forward(self, x):
-        x = x + self.sa(self.ln1(x))
-        x = x + self.ffwd(self.ln2(x))
+        # x = x + self.sa(self.ln1(x))
+        # x = x + self.ffwd(self.ln2(x))
+        time_start_ln1=time.time()
+        x1=self.ln1(x)
+        time_end_ln1=time.time()
+        x = x + self.sa(x1)
+
+        time_start_ln2=time.time()
+        x2=self.ln2(x)
+        time_end_ln2=time.time()
+        x = x + self.ffwd(x2)
+
+        ln_time.append(((time_end_ln1-time_start_ln1)+(time_end_ln2-time_start_ln2))/2)
         return x
 
 class GPTLanguageModel(nn.Module):
@@ -293,14 +307,15 @@ if args.no_train is not True:
     if args.save is None:
         dt=str(datetime.datetime.now()).replace(":","_")
         if args.replace_ln_with_tanh:
-            args.save = f"model_nanogpt_tanh_{dt}.bin"
+            args.save = f"model_{batch_size}_{n_embd}_{block_size}_{n_head}_{n_layer}_{args.randseed}_{dt}.bin"
         else:
-            args.save = f"model_nanogpt_ln_{dt}.bin"
+            args.save = f"model_{batch_size}_{n_embd}_{block_size}_{n_head}_{n_layer}_{args.randseed}_{dt}.bin"
     if args.save is not None:
         print(f"Saving model to {args.save}")
         torch.save(m.state_dict(), f"weight/{args.save}")
 
     print(f"====Seconds used for training: {time_end-time_start}====")
+    print(f"====Seconds used for each LayerNorm/DyT layer on average: {sum(ln_time)/len(ln_time)}====")
 
 # generate from the model
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
