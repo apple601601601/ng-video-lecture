@@ -1,7 +1,11 @@
-# replace layernorm with tanh
-Add modifications for changing layernorm to dynamic tanh according to https://jiachenzhu.github.io/DyT/ and https://arxiv.org/abs/2503.10622
+This repo is a fork of Andrej Karpathy's ng-video-lecture repo and I made some changes for playing around and experiments.
 
-# added some more parameters to make it easier to change hyper-parameters under commandline
+# Updates:
+### replace layernorm with tanh
+Add modifications for changing LayerNorm to Dynamic tanh according to https://jiachenzhu.github.io/DyT/ and https://arxiv.org/abs/2503.10622
+(Didn't see much difference in terms of results and efficiency, probably the model is too small to show significant differences.)
+
+### added some more parameters to make it easier to change hyper-parameters under commandline
 ```
 usage: gpt_tanh.py [-h] [--load LOAD] [--save SAVE] [--no-train] [--replace_ln_with_tanh REPLACE_LN_WITH_TANH] [--max_iters MAX_ITERS] [--eval_interval EVAL_INTERVAL] [--learning_rate LEARNING_RATE] [--eval_iters EVAL_ITERS]
                    [--n_embd N_EMBD] [--n_head N_HEAD] [--n_layer N_LAYER] [--dropout DROPOUT] [--block_size BLOCK_SIZE] [--batch_size BATCH_SIZE] [--device DEVICE]
@@ -25,8 +29,10 @@ options:
   --device DEVICE
 ```
 
-# Original README.md below
 
+---
+
+# Original README.md below
 # nanogpt-lecture
 
 Code created in the [Neural Networks: Zero To Hero](https://karpathy.ai/zero-to-hero.html) video lecture series, specifically on the first lecture on nanoGPT. Publishing here as a Github repo so people can easily hack it, walk through the `git log` history of it, etc.
