@@ -7,7 +7,7 @@ Add modifications for changing LayerNorm to Dynamic tanh according to https://ji
 
 ### added some more parameters to make it easier to change hyper-parameters under commandline
 ```
-python ./gpt_tanh.py -h
+python ./gpt_ln2tanh.py -h
 usage: gpt_tanh.py [-h] [--load LOAD] [--save SAVE] [--no-train] [--replace_ln_with_tanh REPLACE_LN_WITH_TANH] [--max_iters MAX_ITERS] [--eval_interval EVAL_INTERVAL] [--learning_rate LEARNING_RATE] [--eval_iters EVAL_ITERS] [--n_embd N_EMBD]
                    [--n_head N_HEAD] [--n_layer N_LAYER] [--dropout DROPOUT] [--block_size BLOCK_SIZE] [--batch_size BATCH_SIZE] [--device DEVICE] [--randseed RANDSEED]
 
@@ -41,7 +41,7 @@ options:
 
 # Example:
 ```
-python ./gpt_tanh.py
+python ./gpt_ln2tanh.py
 ===Use LayerNorm===
 10.739777 M parameters
 step 0: train loss 4.3205, val loss 4.3128
