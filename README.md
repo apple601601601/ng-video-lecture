@@ -7,28 +7,73 @@ Add modifications for changing LayerNorm to Dynamic tanh according to https://ji
 
 ### added some more parameters to make it easier to change hyper-parameters under commandline
 ```
-usage: gpt_tanh.py [-h] [--load LOAD] [--save SAVE] [--no-train] [--replace_ln_with_tanh REPLACE_LN_WITH_TANH] [--max_iters MAX_ITERS] [--eval_interval EVAL_INTERVAL] [--learning_rate LEARNING_RATE] [--eval_iters EVAL_ITERS]
-                   [--n_embd N_EMBD] [--n_head N_HEAD] [--n_layer N_LAYER] [--dropout DROPOUT] [--block_size BLOCK_SIZE] [--batch_size BATCH_SIZE] [--device DEVICE]
+python ./gpt_tanh.py -h
+usage: gpt_tanh.py [-h] [--load LOAD] [--save SAVE] [--no-train] [--replace_ln_with_tanh REPLACE_LN_WITH_TANH] [--max_iters MAX_ITERS] [--eval_interval EVAL_INTERVAL] [--learning_rate LEARNING_RATE] [--eval_iters EVAL_ITERS] [--n_embd N_EMBD]
+                   [--n_head N_HEAD] [--n_layer N_LAYER] [--dropout DROPOUT] [--block_size BLOCK_SIZE] [--batch_size BATCH_SIZE] [--device DEVICE] [--randseed RANDSEED]
 
 options:
   -h, --help            show this help message and exit
-  --load LOAD
-  --save SAVE
-  --no-train
+  --load LOAD           Load a model from a file
+  --save SAVE           Save a model to a file, will be in "weight" folder
+  --no-train            Do not train the model, inference only
   --replace_ln_with_tanh REPLACE_LN_WITH_TANH
+                        Replace LayerNorm with Dynamic tanh
   --max_iters MAX_ITERS
+                        Number of iterations to train
   --eval_interval EVAL_INTERVAL
+                        How many number of iterations between evaluation
   --learning_rate LEARNING_RATE
+                        Learning rate for training
   --eval_iters EVAL_ITERS
-  --n_embd N_EMBD
-  --n_head N_HEAD
-  --n_layer N_LAYER
-  --dropout DROPOUT
+                        Number of iterations to average loss during evaluation
+  --n_embd N_EMBD       Embedding dimension
+  --n_head N_HEAD       Number of heads
+  --n_layer N_LAYER     Number of layers
+  --dropout DROPOUT     Dropout rate
   --block_size BLOCK_SIZE
+                        Block size
   --batch_size BATCH_SIZE
-  --device DEVICE
+                        Batch size
+  --device DEVICE       Device to use, default is cuda if available
+  --randseed RANDSEED   random seed to use, default to 1337
 ```
 
+
+# Example:
+```
+python ./gpt_tanh.py
+===Use LayerNorm===
+10.739777 M parameters
+step 0: train loss 4.3205, val loss 4.3128
+step 100: train loss 2.5131, val loss 2.5166
+step 200: train loss 2.3533, val loss 2.3809
+step 300: train loss 2.0839, val loss 2.1292
+step 400: train loss 1.8718, val loss 1.9936
+step 499: train loss 1.7531, val loss 1.9010
+Saving model to model_nanogpt_ln_2025-03-22 22_32_45.668254.bin
+====Seconds used for training: 164.88862347602844====
+
+Sirt, Myraiusirves
+Ated the his this hilds promp.
+Espe eurt, year thre: nort hanst Yet forthince theed goodioth,
+As amtand anoualt would, araig its mus.
+Whe tOmand hre twell be that seedied, that bentle the it you
+nnown urneds, hapine hied fin,
+I well burd heaflow, cond the you powith,
+Minionds then foundedest rouns of fly hay.
+
+3 KING HENRY:
+
+E, they; foigh set peak? my as but Lirial!s, dod
+Clear. Mared, not. Slreat thheir-ble practers!
+
+&ZABETHUM:
+There ber bayy sandy.
+
+HiWhat tead:
+Tish nothy
+====Seconds used for inference: 19.585687160491943====
+```
 
 ---
 
