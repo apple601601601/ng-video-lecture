@@ -263,8 +263,8 @@ else:
 
 # torch.save(m.state_dict(),'model_nanogpt.bin')
 if args.load is not None:
-    print(f"Loading model from {args.load}")
-    m.load_state_dict(torch.load(args.load))
+    print(f"Loading model from weight/{args.load}")
+    m.load_state_dict(torch.load(f"weight/{args.load}",weights_only=True))
 
 # print the number of parameters in the model
 print(sum(p.numel() for p in m.parameters())/1e6, 'M parameters')
