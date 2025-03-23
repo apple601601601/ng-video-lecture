@@ -42,6 +42,8 @@ options:
 
 
 # Example:
+
+## train with default hyper parameters and LayerNorm 
 ```
 python ./gpt_ln2tanh.py
 ===Use LayerNorm===
@@ -75,6 +77,55 @@ There ber bayy sandy.
 HiWhat tead:
 Tish nothy
 ====Seconds used for inference: 19.585687160491943====
+```
+
+## train with default hyper parameters and replace LayerNorm with Dynamic tanh
+```
+python ./gpt_ln2tanh.py --replace_ln_with_tanh True
+===Replace LayerNorm with tanh===
+10.739789 M parameters
+step 0: train loss 4.2427, val loss 4.2421
+step 100: train loss 2.4777, val loss 2.4953
+step 200: train loss 2.4149, val loss 2.4437
+step 300: train loss 2.3558, val loss 2.3771
+step 400: train loss 2.2923, val loss 2.3306
+step 499: train loss 2.2492, val loss 2.2914
+Saving model to model_nanogpt_tanh_2025-03-22 22_55_23.033295.bin
+====Seconds used for training: 167.00086760520935====
+
+Sirth nore usircer
+Et! heat, ird, the dive Rath sale e eally y.
+
+
+NOFL:
+EVrd no stay tofo, thice thede g dait balds am tobld oualt wiI Ensty is icow,
+Mathat tOnale hrgh w thebre hatuse ourded; loubend,
+I To ithyoud my Caucked whow ine heed f poqure penouignhe,
+And, co Pan'dwhend thithe, teis rst hen founde e torout nthully hay. pe spowoulbuninnt,
+
+Pay; maige se spthathe, aporour dor has, dod
+Cle Witra ed, umy on To thitheing he pemaress!
+O&G it hat herded ber baveand theue, Whak te, wisind n ano
+====Seconds used for inference: 17.491108655929565====
+```
+
+## Other command samples
+```
+# train with a different embedding dimension
+python ./gpt_ln2tanh.py --n_embd 384
+python ./gpt_ln2tanh.py --replace_ln_with_tanh True --n_embd 384
+
+# train with a different embedding dimension and block size
+python ./gpt_ln2tanh.py --n_embd 384 --block_size 256
+python ./gpt_ln2tanh.py --replace_ln_with_tanh True --n_embd 384 --block_size 256
+
+# inference with a model that is trained with different embedding dimension and block size
+python ./gpt_ln2tanh.py --n_embd 384 --block_size 256 --no-train --load "model_nanogpt_ln_2025-03-22 19_28_20.428231.bin"
+python ./gpt_ln2tanh.py --replace_ln_with_tanh True --n_embd 384 --block_size 256 --no-train --load "model_nanogpt_tanh_2025-03-22 19_34_35.128400.bin"
+
+# inference with a model that is trained with default embedding dimension and block size
+python ./gpt_tanh.py --no-train --load "model_nanogpt_ln_2025-03-22 22_32_45.668254.bin"
+python ./gpt_ln2tanh.py --no-train --load model_nanogpt_ln2tanh.bin --replace_ln_with_tanh True  
 ```
 
 ---
