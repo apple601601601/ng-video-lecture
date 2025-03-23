@@ -298,7 +298,7 @@ if args.no_train is not True:
             args.save = f"model_nanogpt_ln_{dt}.bin"
     if args.save is not None:
         print(f"Saving model to {args.save}")
-        torch.save(m.state_dict(), f"weight{args.save}")
+        torch.save(m.state_dict(), f"weight/{args.save}")
 
     print(f"====Seconds used for training: {time_end-time_start}====")
 
