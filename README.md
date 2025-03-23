@@ -1,15 +1,17 @@
 This repo is a fork of Andrej Karpathy's ng-video-lecture repo and I made some changes for playing around and experiments.
 
 # Updates:
-### replace layernorm with tanh
+### Replace layernorm with tanh
 Add modifications for changing LayerNorm to Dynamic tanh according to https://jiachenzhu.github.io/DyT/ and https://arxiv.org/abs/2503.10622
 (Didn't see much difference in terms of results and efficiency, probably the model is too small to show significant differences.)
 
-### added some more parameters to make it easier to change hyper-parameters under commandline
+### Added some more parameters to make it easier to change hyper-parameters under commandline
 ```
 python ./gpt_ln2tanh.py -h
-usage: gpt_tanh.py [-h] [--load LOAD] [--save SAVE] [--no-train] [--replace_ln_with_tanh REPLACE_LN_WITH_TANH] [--max_iters MAX_ITERS] [--eval_interval EVAL_INTERVAL] [--learning_rate LEARNING_RATE] [--eval_iters EVAL_ITERS] [--n_embd N_EMBD]
-                   [--n_head N_HEAD] [--n_layer N_LAYER] [--dropout DROPOUT] [--block_size BLOCK_SIZE] [--batch_size BATCH_SIZE] [--device DEVICE] [--randseed RANDSEED]
+usage: gpt_ln2tanh.py [-h] [--load LOAD] [--save SAVE] [--no-train] [--replace_ln_with_tanh REPLACE_LN_WITH_TANH]
+                      [--max_iters MAX_ITERS] [--eval_interval EVAL_INTERVAL] [--learning_rate LEARNING_RATE]
+                      [--eval_iters EVAL_ITERS] [--n_embd N_EMBD] [--n_head N_HEAD] [--n_layer N_LAYER] [--dropout DROPOUT]
+                      [--block_size BLOCK_SIZE] [--batch_size BATCH_SIZE] [--device DEVICE] [--randseed RANDSEED]
 
 options:
   -h, --help            show this help message and exit
@@ -17,23 +19,23 @@ options:
   --save SAVE           Save a model to a file, will be in "weight" folder
   --no-train            Do not train the model, inference only
   --replace_ln_with_tanh REPLACE_LN_WITH_TANH
-                        Replace LayerNorm with Dynamic tanh
+                        Replace LayerNorm with Dynamic tanh, default is False
   --max_iters MAX_ITERS
-                        Number of iterations to train
+                        Number of iterations to train, default is 5000
   --eval_interval EVAL_INTERVAL
-                        How many number of iterations between evaluation
+                        How many number of iterations between evaluation, default is 100
   --learning_rate LEARNING_RATE
-                        Learning rate for training
+                        Learning rate for training, default is 3e-4
   --eval_iters EVAL_ITERS
-                        Number of iterations to average loss during evaluation
-  --n_embd N_EMBD       Embedding dimension
-  --n_head N_HEAD       Number of heads
-  --n_layer N_LAYER     Number of layers
-  --dropout DROPOUT     Dropout rate
+                        Number of iterations to average loss during evaluation, default is 200
+  --n_embd N_EMBD       Embedding dimension, default is 384
+  --n_head N_HEAD       Number of heads, default is 6
+  --n_layer N_LAYER     Number of layers, default is 6
+  --dropout DROPOUT     Dropout rate, default is 0.2
   --block_size BLOCK_SIZE
-                        Block size
+                        Block size, default is 128
   --batch_size BATCH_SIZE
-                        Batch size
+                        Batch size, default is 64
   --device DEVICE       Device to use, default is cuda if available
   --randseed RANDSEED   random seed to use, default to 1337
 ```
