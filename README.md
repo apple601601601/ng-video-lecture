@@ -112,16 +112,16 @@ O&G it hat herded ber baveand theue, Whak te, wisind n ano
 ## Other command samples
 ```
 # train with a different embedding dimension
-python ./gpt_ln2tanh.py --n_embd 384
-python ./gpt_ln2tanh.py --replace_ln_with_tanh True --n_embd 384
+python ./gpt_ln2tanh.py --n_embd 512
+python ./gpt_ln2tanh.py --replace_ln_with_tanh True --n_embd 512
 
 # train with a different embedding dimension and block size
-python ./gpt_ln2tanh.py --n_embd 384 --block_size 256
-python ./gpt_ln2tanh.py --replace_ln_with_tanh True --n_embd 384 --block_size 256
+python ./gpt_ln2tanh.py --n_embd 512 --block_size 256
+python ./gpt_ln2tanh.py --replace_ln_with_tanh True --n_embd 512 --block_size 256
 
 # inference with a model that is trained with different embedding dimension and block size
-python ./gpt_ln2tanh.py --n_embd 384 --block_size 256 --no-train --load "model_nanogpt_ln_2025-03-22 19_28_20.428231.bin"
-python ./gpt_ln2tanh.py --replace_ln_with_tanh True --n_embd 384 --block_size 256 --no-train --load "model_nanogpt_tanh_2025-03-22 19_34_35.128400.bin"
+python ./gpt_ln2tanh.py --n_embd 512 --block_size 256 --no-train --load "model_nanogpt_ln_2025-03-22 19_28_20.428231.bin"
+python ./gpt_ln2tanh.py --replace_ln_with_tanh True --n_embd 512 --block_size 256 --no-train --load "model_nanogpt_tanh_2025-03-22 19_34_35.128400.bin"
 
 # inference with a model that is trained with default embedding dimension and block size
 python ./gpt_tanh.py --no-train --load "model_nanogpt_ln_2025-03-22 22_32_45.668254.bin"
