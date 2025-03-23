@@ -7,23 +7,24 @@ import datetime
 
 # add argument parser
 parser=argparse.ArgumentParser()
-parser.add_argument('--load', type=str, default=None)
-parser.add_argument('--save', type=str, default=None)
-parser.add_argument('--no-train',  action='store_true') 
-parser.add_argument('--replace_ln_with_tanh', type=bool, default=False)
+parser.add_argument('--load', type=str, default=None, help='Load a model from a file')
+parser.add_argument('--save', type=str, default=None, help='Save a model to a file, will be in "weight" folder')
+parser.add_argument('--no-train',  action='store_true', help='Do not train the model, inference only') 
+parser.add_argument('--replace_ln_with_tanh', type=bool, default=False, help='Replace LayerNorm with Dynamic tanh')
 
-parser.add_argument('--max_iters', type=int, default=500)
-parser.add_argument('--eval_interval', type=int, default=100)
-parser.add_argument('--learning_rate', type=float, default=3e-4)
-parser.add_argument('--eval_iters', type=int, default=200)
-parser.add_argument('--n_embd', type=int, default=384)      
+parser.add_argument('--max_iters', type=int, default=5000, help='Number of iterations to train')
+parser.add_argument('--eval_interval', type=int, default=100, help='How many number of iterations between evaluation')
+parser.add_argument('--learning_rate', type=float, default=3e-4, help='Learning rate for training')
+parser.add_argument('--eval_iters', type=int, default=200, help='Number of iterations to average loss during evaluation')
+parser.add_argument('--n_embd', type=int, default=384, help='Embedding dimension')      
 # parser.add_argument('--n_embd', type=int, default=120)      
-parser.add_argument('--n_head', type=int, default=6)
-parser.add_argument('--n_layer', type=int, default=6)   
-parser.add_argument('--dropout', type=float, default=0.2)
-parser.add_argument('--block_size', type=int, default=128)  
-parser.add_argument('--batch_size', type=int, default=64)
-parser.add_argument('--device', type=str, default=None)
+parser.add_argument('--n_head', type=int, default=6, help='Number of heads')
+parser.add_argument('--n_layer', type=int, default=6,  help='Number of layers')   
+parser.add_argument('--dropout', type=float, default=0.2, help='Dropout rate')
+parser.add_argument('--block_size', type=int, default=128, help='Block size')  
+parser.add_argument('--batch_size', type=int, default=64, help='Batch size')
+parser.add_argument('--device', type=str, default=None, help='Device to use, default is cuda if available')
+parser.add_argument('--randseed', type=int, default=1337, help='random seed to use, default to 1337')
 args=parser.parse_args()
 
 max_iters = args.max_iters
@@ -39,6 +40,8 @@ batch_size = args.batch_size
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 if args.device is not None:
     device = args.device
+if args.randseed is not None:
+    torch.manual_seed(args.randseed)
 
 # # hyperparameters
 # batch_size = 64 # how many independent sequences will we process in parallel?
@@ -57,8 +60,6 @@ if args.device is not None:
 # n_layer = 6
 # dropout = 0.2
 # # ------------
-
-torch.manual_seed(1337)
 
 # wget https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
 with open('input.txt', 'r', encoding='utf-8') as f:
