@@ -311,7 +311,7 @@ if args.no_train is not True:
         else:
             args.save = f"model_{batch_size}_{n_embd}_{block_size}_{n_head}_{n_layer}_{args.randseed}_{dt}.bin"
     if args.save is not None:
-        print(f"Saving model to {args.save}")
+        print(f"Saving model to weight/{args.save}")
         torch.save(m.state_dict(), f"weight/{args.save}")
 
     print(f"====Seconds used for training: {time_end-time_start}====")
